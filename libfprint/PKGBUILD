@@ -1,0 +1,33 @@
+# Maintainer: gborzi <gborzi@ieee.org>
+# Contributor: Jan Alexander Steffens (heftig) <jan.steffens@gmail.com>
+# Contributor: Tom Gundersen <teg@jklm.no>
+# Contributor: Thomas Baechler <thomas@archlinux.org>
+
+pkgname=libfprint-0
+_pkgname=libfprint
+pkgver=0.7
+pkgrel=1
+pkgdesc="Library for fingerprint readers - version 0.7 for fprint_demo"
+arch=(x86_64)
+url="https://fprint.freedesktop.org/"
+license=(LGPL)
+depends=(libusb nss pixman glib2)
+makedepends=(git)
+provides=('libfprint=0.7')
+groups=(fprint)
+#_commit=823f2c1067a27deae4153dd9ece6ce24bedc0680  # tags/V_1_0^0
+_commit=d82847a6b4bbd2864388f2bf8e6a2b9d1aed05c4  # tags/V_0_7_0
+source=("git+https://gitlab.freedesktop.org/libfprint/libfprint.git#commit=$_commit")
+sha256sums=('SKIP')
+
+build() {
+    cd $_pkgname
+    ./autogen.sh
+    ./configure --prefix=/usr --sysconfdir=/etc
+    make
+}
+
+package() {
+    cd $_pkgname
+    make DESTDIR="${pkgdir}" install
+}
