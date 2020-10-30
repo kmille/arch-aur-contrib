@@ -15,9 +15,12 @@ md5sums=('41e78e420716f300b8776047b3c9fc5b')
 
 build() {
   cd "${pkgname}-${pkgver}"
+  sed -i 's|libfprint|libfprint-0|' configure.ac
   NOCONFIGURE=1 ./autogen.sh
   ./configure --prefix=/usr \
               --sysconfdir=/etc
+  sed -i 's|<libfprint|<libfprint-0|g' src/*.c
+  sed -i 's|<libfprint|<libfprint-0|g' src/*.h
   make
 }
 
