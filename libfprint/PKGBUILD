@@ -23,15 +23,8 @@ sha256sums=('SKIP')
 build() {
     cd $_pkgname
     sed -i 's|-lfprint|-lfprint-0|g' libfprint.pc.in
-    sed -i 's|/libfprint|/libfprint-0|g' libfprint.pc.in
-    sed -i 's| libfprint| libfprint-0|' libfprint.pc.in
-    #sed -i '/^DISTCHECK_CONFIGURE_FLAGS/d' Makefile.am
-    #sed -i 's/--enable-x11-examples-build//' Makefile.am
-    #sed -i 's/--enable-examples-build//' Makefile.am
-    #sed -i 's/ doc / /g' Makefile.am
-    #cat Makefile.am
-    #cat Makefile.am
-    ./autogen.sh
+    sed -i 's|libfprint|libfprint-0|g' libfprint.pc.in
+    NOCONFIGURE=1 ./autogen.sh
     ./configure --prefix=/usr --sysconfdir=/etc
     make
 }
@@ -40,12 +33,11 @@ package() {
     cd $_pkgname
     make DESTDIR="${pkgdir}" install
     cd "${pkgdir}"
-    unlink usr/lib/libfprint.so.0
-    unlink usr/lib/libfprint.so
+    rm -rf  usr/lib/libfprint.so usr/lib/libfprint.so.0
     mv usr/lib/libfprint.so.0.0.0 usr/lib/libfprint-0.so.0.0.0
-    patchelf --set-soname libfprint-0.so.0 usr/lib/libfprint-0.so.0.0.0
     ln -s libfprint-0.so.0.0.0 usr/lib/libfprint-0.so.0
     ln -s libfprint-0.so.0 usr/lib/libfprint-0.so
+    patchelf --set-soname libfprint-0.so.0 usr/lib/libfprint-0.so.0.0.0
     mv usr/lib/pkgconfig/libfprint.pc usr/lib/pkgconfig/libfprint-0.pc
     mv usr/include/libfprint usr/include/libfprint-0
     rm usr/lib/libfprint.a
