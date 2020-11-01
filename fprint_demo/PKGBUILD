@@ -3,7 +3,7 @@
 
 pkgname=fprint_demo
 pkgver=0.4
-pkgrel=1
+pkgrel=2
 pkgdesc='A simple GTK+ application to demonstrate and test libfprint'"'"'s capabilities'
 arch=('i686' 'x86_64')
 url='https://www.freedesktop.org/wiki/Software/fprint/fprint_demo/'

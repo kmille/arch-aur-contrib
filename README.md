@@ -1,4 +1,4 @@
 # Some packages for Arch Linux
 
-## good ready
+## good reads
 - https://dmerej.info/blog/post/symlinks-and-so-files-on-linux/
